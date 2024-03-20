@@ -1,7 +1,7 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:i_am/screens/pages/history_page.dart';
+import 'package:i_am/screens/pages/list_page.dart';
 import 'package:i_am/screens/pages/order_page.dart';
 import 'package:i_am/screens/pages/profile_page.dart';
 import 'package:i_am/utils/theme.dart';
@@ -38,7 +38,7 @@ class _MainScreenState extends State<MainScreen> {
         controller: _pageController,
         children: [
           OrderPage(),
-          HistoryPage(),
+          ListPage(),
           ProfilePage(),
         ],
         onPageChanged: (index) {
