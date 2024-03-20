@@ -26,13 +26,16 @@ class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      physics: BouncingScrollPhysics(
+        decelerationRate: ScrollDecelerationRate.fast,
+      ),
       slivers: [
         SliverAppBar(
           pinned: true,
           floating: true,
           snap: true,
+          toolbarHeight: 64.0,
           title: Wrap(
-            alignment: WrapAlignment.center,
             crossAxisAlignment: WrapCrossAlignment.center,
             spacing: 10,
             runSpacing: 10,

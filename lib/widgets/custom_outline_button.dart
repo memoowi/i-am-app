@@ -20,16 +20,15 @@ class CustomOutlineButton extends StatelessWidget {
         disabledForegroundColor: CustomColors.secondaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
-          side:
-              BorderSide(color: CustomColors.secondaryColor),
+          side: BorderSide(color: CustomColors.secondaryColor),
         ),
-        minimumSize: const Size.fromHeight(50.0),
+        minimumSize: const Size.fromHeight(48.0),
         elevation: 0.0,
       ),
       child: Text(
         text,
         style: CustomTextStyles.secondary.copyWith(
-          fontSize: 18.0,
+          fontSize: 16.0,
           fontWeight: FontWeight.w700,
         ),
       ),
