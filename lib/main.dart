@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       onGenerateRoute: (settings) {
         switch (settings.name) {
-          case '/splash':
+          case '/':
             return CupertinoPageRoute(
               builder: (context) => const SplashScreen(),
             );
@@ -46,7 +46,6 @@ class MyApp extends StatelessWidget {
             return null;
         }
       },
-      home: MainScreen(),
     );
   }
 }

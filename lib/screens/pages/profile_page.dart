@@ -9,6 +9,10 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void logout() {
+      Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+    }
+
     return Column(
       children: [
         Stack(
@@ -92,7 +96,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                   Spacer(),
                   CustomOutlineButton(
-                    onPressed: () {},
+                    onPressed: logout,
                     text: 'Logout',
                   ),
                 ],

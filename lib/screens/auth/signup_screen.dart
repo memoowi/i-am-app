@@ -71,11 +71,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void signup() {
-    if (_formKey.currentState!.validate()) {
-      // Navigator.of(context).pushNamed(
-      //   '/splash',
-      // );
-    }
+    // if (_formKey.currentState!.validate()) {}
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      '/home',
+      (Route<dynamic> route) => false,
+    );
   }
 
   @override

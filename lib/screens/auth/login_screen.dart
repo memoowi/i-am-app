@@ -40,11 +40,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login() {
-    if (_formKey.currentState!.validate()) {
-      // Navigator.of(context).pushNamed(
-      //   '/splash',
-      // );
-    }
+    // if (_formKey.currentState!.validate()) {}
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      '/home',
+      (Route<dynamic> route) => false,
+    );
   }
 
   @override
