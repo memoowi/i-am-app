@@ -24,7 +24,8 @@ class _MapScreenState extends State<MapScreen> {
       _checkLocationPermission();
     } else if (permission == LocationPermission.deniedForever) {
       // Open app settings to grant permission
-      Geolocator.openAppSettings();
+      await Geolocator.openAppSettings();
+      _checkLocationPermission();
 
       // Offer a way to open app settings for permission management
       // (Consider using a package like `permission_handler`)
@@ -46,7 +47,7 @@ class _MapScreenState extends State<MapScreen> {
       });
 
       await _goToCurrentLocation();
-    } on LocationServiceDisabledException catch (e) {
+    } on LocationServiceDisabledException {
       // Handle location services disabled error
       Geolocator.openLocationSettings();
     }
