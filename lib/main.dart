@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:i_am/screens/auth/login_screen.dart';
 import 'package:i_am/screens/auth/signup_screen.dart';
 import 'package:i_am/screens/main_screen.dart';
+import 'package:i_am/screens/map_screen.dart';
 import 'package:i_am/screens/splash_screen.dart';
 import 'package:i_am/utils/theme.dart';
 
@@ -41,6 +42,10 @@ class MyApp extends StatelessWidget {
           case '/home':
             return CupertinoPageRoute(
               builder: (context) => const MainScreen(),
+            );
+          case '/maps':
+            return CupertinoPageRoute(
+              builder: (context) => const MapScreen(),
             );
           default:
             return null;
