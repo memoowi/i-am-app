@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:i_am/bloc/auth_bloc.dart';
 import 'package:i_am/utils/theme.dart';
 import 'package:i_am/widgets/auth_brand_banner.dart';
 import 'package:i_am/widgets/custom_filled_button.dart';
@@ -16,8 +18,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _showPassword = false;
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   void toggleShowPassword() {
     setState(() {
@@ -40,11 +42,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login() {
-    // if (_formKey.currentState!.validate()) {}
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      '/home',
-      (Route<dynamic> route) => false,
-    );
+    if (_formKey.currentState!.validate()) {
+      context.read<AuthBloc>().add(Signin(
+          username: _usernameController.text,
+          password: _passwordController.text,
+          context: context));
+    }
   }
 
   @override
@@ -115,9 +118,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 32.0),
-                      CustomFilledButton(
-                        onPressed: login,
-                        text: 'Sign In',
+                      BlocConsumer<AuthBloc, AuthState>(
+                        listener: (context, state) {
+                          if (state is AuthenticatedState) {
+                            Navigator.of(context).pushReplacementNamed(
+                              '/home',
+                            );
+                          }
+                        },
+                        builder: (context, state) {
+                          return CustomFilledButton(
+                            onPressed:
+                                (state is AuthLoadingState) ? null : login,
+                            text: 'Sign In',
+                          );
+                        },
                       ),
                       const SizedBox(height: 20.0),
                       CustomOutlineButton(

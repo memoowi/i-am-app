@@ -41,6 +41,7 @@ dependencies:
   flutter_bloc: ^8.1.4
   google_maps_flutter: ^2.6.0
   geolocator: ^11.0.0
+  delightful_toast: ^1.1.0
 
 dev_dependencies:
   flutter_test:

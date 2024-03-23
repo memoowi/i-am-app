@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:i_am/bloc/auth_bloc.dart';
 import 'package:i_am/screens/auth/login_screen.dart';
 import 'package:i_am/screens/auth/signup_screen.dart';
 import 'package:i_am/screens/main_screen.dart';
@@ -8,13 +10,21 @@ import 'package:i_am/screens/splash_screen.dart';
 import 'package:i_am/utils/theme.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AuthBloc()..add(AppStarted()),
+        )
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
