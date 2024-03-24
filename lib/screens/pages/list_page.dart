@@ -42,7 +42,7 @@ class _ListPageState extends State<ListPage> {
             children: [
               CircleAvatar(
                 radius: 24,
-                foregroundImage: AssetImage('assets/profile.jpg'),
+                foregroundImage: AssetImage('assets/profile-2.png'),
               ),
               SizedBox(),
               ...List<Widget>.generate(

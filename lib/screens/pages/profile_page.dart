@@ -25,6 +25,7 @@ class ProfilePage extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        final user = state is AuthenticatedState ? state.user : null;
         return Column(
           children: [
             Stack(
@@ -58,7 +59,7 @@ class ProfilePage extends StatelessWidget {
                   child: CircleAvatar(
                     radius: 60,
                     backgroundColor: CustomColors.lightColor,
-                    foregroundImage: AssetImage('assets/profile.jpg'),
+                    foregroundImage: AssetImage('assets/profile-2.png'),
                   ),
                 ),
               ],
@@ -83,7 +84,7 @@ class ProfilePage extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        'John Doe',
+                        user?.name ?? 'Loading...',
                         style: CustomTextStyles.secondaryMadimi.copyWith(
                           fontSize: 24,
                           fontWeight: FontWeight.w700,
@@ -91,7 +92,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                       SizedBox(height: 6),
                       Text(
-                        '(0888-8888-8888)',
+                        '(${user?.phoneNumber})',
                         style: CustomTextStyles.grey.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -99,7 +100,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                       SizedBox(height: 6),
                       Text(
-                        'john.doe@me.com',
+                        user?.email ?? 'Loading...',
                         style: CustomTextStyles.dark.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
