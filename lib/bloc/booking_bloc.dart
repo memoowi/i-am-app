@@ -48,6 +48,45 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         emit(BookingInitial());
       }
     });
+
+    on<NewBookingEvent>((event, emit) async {
+      emit(BookingLoading());
+
+      try {
+        final token = await getToken();
+        final response = await dio.post(Config.bookingListUrl,
+            data: {
+              'description': event.description,
+              'latitude': event.latitude,
+              'longitude': event.longitude,
+            },
+            options: Options(headers: {
+              'Authorization': 'Bearer $token',
+            }));
+
+        if (response.statusCode == 201) {
+          emit(BookingSuccess());
+          if (event.context.mounted) {
+            CustomSnackBar.show(
+              message: 'Booking Created',
+              icon: Icons.check,
+              context: event.context,
+            );
+          }
+        }
+      } on DioException catch (e) {
+        emit(BookingFailed());
+        if (event.context.mounted) {
+          CustomSnackBar.show(
+            message: e.response?.data['message'],
+            icon: Icons.error,
+            context: event.context,
+          );
+        }
+      } finally {
+        emit(BookingInitial());
+      }
+    });
   }
 
   Future<String?> getToken() async {

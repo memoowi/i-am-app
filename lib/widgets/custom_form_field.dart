@@ -10,6 +10,8 @@ class CustomFormField extends StatelessWidget {
   final IconData? prefixIcon;
   final Widget? suffixIcon;
   final String? labelText;
+  final VoidCallback? onTap;
+  final bool readOnly;
 
   const CustomFormField({
     super.key,
@@ -20,11 +22,15 @@ class CustomFormField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.labelText,
+    this.onTap,
+    this.readOnly = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: onTap,
+      readOnly: readOnly,
       obscureText: obscureText ?? false,
       controller: controller,
       validator: validator,

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:i_am/bloc/location_bloc.dart';
 import 'package:i_am/utils/theme.dart';
 
 class OrderPage extends StatefulWidget {
@@ -32,53 +34,67 @@ class _OrderPageState extends State<OrderPage> {
             ),
           ),
           SizedBox(height: 20.0),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/maps');
+          BlocConsumer<LocationBloc, LocationState>(
+            listener: (context, state) {
+              if (state is PermissionGranted) {
+                Navigator.pushNamed(
+                  context,
+                  '/maps',
+                );
+              }
             },
-            style: ElevatedButton.styleFrom(
-              shape: CircleBorder(),
-              padding: EdgeInsets.all(6),
-              elevation: 8.0,
-              shadowColor: CustomColors.secondaryColor,
-            ),
-            child: Container(
-              padding: EdgeInsets.all(48.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  tileMode: TileMode.clamp,
-                  colors: [
-                    CustomColors.lightColor,
-                    CustomColors.primaryColor.withOpacity(0.7),
-                  ],
-                  radius: 0.6,
-                  stops: [0.6, 1.0],
+            builder: (context, state) {
+              return ElevatedButton(
+                onPressed: () {
+                  context
+                      .read<LocationBloc>()
+                      .add(CheckLocationPermission(context: context));
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: CircleBorder(),
+                  padding: EdgeInsets.all(6),
+                  elevation: 8.0,
+                  shadowColor: CustomColors.secondaryColor,
                 ),
-              ),
-              child: Container(
-                padding: EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: CustomColors.primaryColor,
-                ),
-                child: Icon(
-                  CupertinoIcons.exclamationmark_triangle,
-                  size: 64,
-                  color: Colors.white,
-                  shadows: [
-                    Shadow(
-                      color: CustomColors.lightColor,
-                      blurRadius: 24.0,
+                child: Container(
+                  padding: EdgeInsets.all(48.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: RadialGradient(
+                      tileMode: TileMode.clamp,
+                      colors: [
+                        CustomColors.lightColor,
+                        CustomColors.primaryColor.withOpacity(0.7),
+                      ],
+                      radius: 0.6,
+                      stops: [0.6, 1.0],
                     ),
-                    Shadow(
-                      color: CustomColors.darkColor,
-                      blurRadius: 12.0,
+                  ),
+                  child: Container(
+                    padding: EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: CustomColors.primaryColor,
                     ),
-                  ],
+                    child: Icon(
+                      CupertinoIcons.exclamationmark_triangle,
+                      size: 64,
+                      color: Colors.white,
+                      shadows: [
+                        Shadow(
+                          color: CustomColors.lightColor,
+                          blurRadius: 24.0,
+                        ),
+                        Shadow(
+                          color: CustomColors.darkColor,
+                          blurRadius: 12.0,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
         ],
       ),
