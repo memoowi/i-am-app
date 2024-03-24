@@ -7,7 +7,11 @@ import 'package:i_am/screens/pages/profile_page.dart';
 import 'package:i_am/utils/theme.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final int index;
+  const MainScreen({
+    super.key,
+    this.index = 0,
+  });
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -18,7 +22,18 @@ class _MainScreenState extends State<MainScreen> {
   final NotchBottomBarController notchBottomBarController =
       NotchBottomBarController();
 
-  final PageController _pageController = PageController();
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _currentIndex = widget.index;
+    });
+    notchBottomBarController.index = _currentIndex;
+    _pageController =
+        PageController(initialPage: _currentIndex); // Set initial page
+  }
 
   @override
   void dispose() {

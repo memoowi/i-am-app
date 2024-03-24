@@ -8,14 +8,12 @@ class NewBookingEvent extends BookingEvent {
   final String description;
   final double latitude;
   final double longitude;
-  final DateTime bookingTime;
 
   NewBookingEvent({
     required this.context,
     required this.description,
     required this.latitude,
     required this.longitude,
-    required this.bookingTime,
   });
 }
 
