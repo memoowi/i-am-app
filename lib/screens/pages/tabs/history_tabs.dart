@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_am/bloc/booking_list_bloc.dart';
 import 'package:i_am/models/booking_list_model.dart';
+import 'package:i_am/utils/theme.dart';
 import 'package:i_am/widgets/custom_expand_tile.dart';
 
 class HistoryTabs extends StatelessWidget {
@@ -19,6 +20,19 @@ class HistoryTabs extends StatelessWidget {
             .where((element) =>
                 element.status == 'completed' || element.status == 'canceled')
             .toList();
+        if (historyData.isEmpty) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: Text(
+                'No History Orders...',
+                style: CustomTextStyles.grey.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          );
+        }
         return ListView.separated(
           padding: EdgeInsets.zero,
           physics: NeverScrollableScrollPhysics(),

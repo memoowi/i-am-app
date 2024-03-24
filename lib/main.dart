@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_am/bloc/auth_bloc.dart';
+import 'package:i_am/bloc/booking_bloc.dart';
 import 'package:i_am/bloc/booking_list_bloc.dart';
 import 'package:i_am/screens/auth/login_screen.dart';
 import 'package:i_am/screens/auth/signup_screen.dart';
@@ -19,6 +20,9 @@ void main() {
         ),
         BlocProvider(
           create: (context) => BookingListBloc(),
+        ),
+        BlocProvider(
+          create: (context) => BookingBloc(),
         ),
       ],
       child: const MyApp(),

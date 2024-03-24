@@ -9,4 +9,5 @@ class Config {
 
   // Bookings
   static const String bookingListUrl = "$baseApiUrl/bookings";
+  static const String cancelBookingUrl = "$baseApiUrl/bookings/";
 }

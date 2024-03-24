@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:i_am/bloc/booking_bloc.dart';
+import 'package:i_am/bloc/booking_list_bloc.dart';
 import 'package:i_am/models/booking_list_model.dart';
 import 'package:i_am/utils/theme.dart';
 import 'package:i_am/widgets/custom_filled_button.dart';
 import 'package:i_am/widgets/custom_outline_button.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 enum StatusType {
   pending,
@@ -301,14 +305,70 @@ class CustomExpandTile extends StatelessWidget {
                     status == StatusType.picked ||
                     status == StatusType.completed
                 ? CustomFilledButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      // final url = 'tel:${data.ambulance!.user!.phoneNumber}';
+                      final phoneNumber = data.ambulance!.user!.phoneNumber;
+                      final url = 'https://wa.me/$phoneNumber';
+                      await launchUrl(Uri.parse(url));
+                    },
                     text: 'Contact',
                   )
                 : SizedBox.shrink(),
             status == StatusType.pending
-                ? CustomOutlineButton(
-                    onPressed: () {},
-                    text: 'Cancel',
+                ? BlocConsumer<BookingBloc, BookingState>(
+                    listener: (context, state) {
+                      if (state is BookingSuccess || state is BookingFailed) {
+                        Navigator.pop(context);
+                        context.read<BookingListBloc>().add(FetchBookingList());
+                      }
+                    },
+                    builder: (context, state) => CustomOutlineButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            title:
+                                const Text('Are you sure you want to cancel?'),
+                            titleTextStyle:
+                                CustomTextStyles.darkMadimi.copyWith(
+                              fontSize: 20,
+                            ),
+                            actions: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: CustomOutlineButton(
+                                      text: 'Cancel',
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: CustomFilledButton(
+                                      text: 'Yes',
+                                      onPressed: (state is BookingLoading)
+                                          ? null
+                                          : () {
+                                              context.read<BookingBloc>().add(
+                                                  CancelBookingEvent(
+                                                      context: context,
+                                                      id: data.id!));
+                                            },
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                      text: 'Cancel',
+                    ),
                   )
                 : SizedBox.shrink(),
           ],

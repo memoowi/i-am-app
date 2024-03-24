@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_am/bloc/booking_list_bloc.dart';
 import 'package:i_am/screens/pages/tabs/history_tabs.dart';
 import 'package:i_am/screens/pages/tabs/ongoing_tabs.dart';
+import 'package:i_am/utils/theme.dart';
 
 class ListPage extends StatefulWidget {
   const ListPage({super.key});
@@ -37,7 +38,6 @@ class _ListPageState extends State<ListPage> {
       onRefresh: () async {
         context.read<BookingListBloc>().add(FetchBookingList());
       },
-      // displacement: 50.0,
       edgeOffset: 100.0,
       child: CustomScrollView(
         physics: BouncingScrollPhysics(
@@ -63,7 +63,17 @@ class _ListPageState extends State<ListPage> {
                   _pages.length,
                   (int index) {
                     return ChoiceChip(
+                      selectedColor: CustomColors.primaryColor,
+                      checkmarkColor: CustomColors.lightColor,
                       label: Text('${_pages[index]['title']}'),
+                      labelStyle: index == _value
+                          ? CustomTextStyles.light.copyWith(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w700,
+                            )
+                          : CustomTextStyles.dark.copyWith(
+                              fontSize: 14.0,
+                            ),
                       selected: _value == index,
                       onSelected: (bool selected) {
                         setState(() {
