@@ -6,6 +6,11 @@ class CustomColors {
   static const Color darkColor = Color(0xFF221F1F);
   static const Color lightColor = Color(0xFFF5F5F1);
   static const Color greyColor = Color(0xFF9B9B9B);
+
+  static const Color greenColor = Color(0xFF06B04D);
+  static const Color cyanColor = Color(0xFF0AA0A0);
+  static const Color violetColor = Color(0xFF9B00C8);
+  static const Color pinkColor = Color(0xFFE69214);
 }
 
 class CustomTextStyles {

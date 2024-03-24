@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:i_am/bloc/auth_bloc.dart';
 import 'package:i_am/utils/theme.dart';
 import 'package:i_am/widgets/auth_brand_banner.dart';
 import 'package:i_am/widgets/custom_filled_button.dart';
@@ -45,6 +47,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? validatePhone(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter some text';
+    } else if (value.length < 10 || int.tryParse(value) == null) {
+      return 'Please enter a valid phone number';
     }
     return null;
   }
@@ -52,6 +56,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter some text';
+    } else if (!value.contains('@') || !value.contains('.')) {
+      return 'Please enter a valid email address';
     }
     return null;
   }
@@ -59,6 +65,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter some text';
+    } else if (value.length < 8) {
+      return 'Password must be at least 8 characters';
     }
     return null;
   }
@@ -66,15 +74,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? validateConfirmPassword(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter some text';
+    } else if (value != _passwordController.text) {
+      return 'Passwords do not match';
     }
     return null;
   }
 
   void signup() {
     if (_formKey.currentState!.validate()) {
-      // Navigator.of(context).pushNamed(
-      //   '/splash',
-      // );
+      context.read<AuthBloc>().add(Signup(
+            name: _nameController.text,
+            phoneNumber: _phoneController.text,
+            email: _emailController.text,
+            password: _passwordController.text,
+            context: context,
+          ));
     }
   }
 
@@ -184,9 +198,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       const SizedBox(height: 32.0),
-                      CustomFilledButton(
-                        onPressed: signup,
-                        text: 'Sign Up',
+                      BlocConsumer<AuthBloc, AuthState>(
+                        listener: (context, state) {
+                          if (state is AuthenticatedState) {
+                            Navigator.of(context).pushReplacementNamed(
+                              '/home',
+                            );
+                          }
+                        },
+                        builder: (context, state) {
+                          return CustomFilledButton(
+                            onPressed:
+                                (state is AuthLoadingState) ? null : signup,
+                            text: 'Sign Up',
+                          );
+                        },
                       ),
                       const SizedBox(height: 20.0),
                       CustomOutlineButton(

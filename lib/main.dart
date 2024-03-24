@@ -1,19 +1,38 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:i_am/bloc/auth_bloc.dart';
+import 'package:i_am/bloc/booking_bloc.dart';
+import 'package:i_am/bloc/booking_list_bloc.dart';
 import 'package:i_am/screens/auth/login_screen.dart';
 import 'package:i_am/screens/auth/signup_screen.dart';
 import 'package:i_am/screens/main_screen.dart';
+import 'package:i_am/screens/map_screen.dart';
 import 'package:i_am/screens/splash_screen.dart';
 import 'package:i_am/utils/theme.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AuthBloc()..add(AppStarted()),
+        ),
+        BlocProvider(
+          create: (context) => BookingListBloc(),
+        ),
+        BlocProvider(
+          create: (context) => BookingBloc(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,7 +45,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       onGenerateRoute: (settings) {
         switch (settings.name) {
-          case '/splash':
+          case '/':
             return CupertinoPageRoute(
               builder: (context) => const SplashScreen(),
             );
@@ -42,11 +61,14 @@ class MyApp extends StatelessWidget {
             return CupertinoPageRoute(
               builder: (context) => const MainScreen(),
             );
+          case '/maps':
+            return CupertinoPageRoute(
+              builder: (context) => const MapScreen(),
+            );
           default:
             return null;
         }
       },
-      home: MainScreen(),
     );
   }
 }
