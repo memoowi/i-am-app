@@ -7,7 +7,9 @@ import 'package:i_am/bloc/ambulance_list_bloc.dart';
 import 'package:i_am/bloc/location_bloc.dart';
 import 'package:i_am/models/booking_list_model.dart';
 import 'package:i_am/utils/theme.dart';
+import 'package:i_am/widgets/custom_filled_button.dart';
 import 'package:i_am/widgets/custom_modal_popup.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -27,11 +29,90 @@ class _MapScreenState extends State<MapScreen> {
         markerId: MarkerId(ambulance.id.toString()),
         position: LatLng(ambulance.latitude!, ambulance.longitude!),
         infoWindow: InfoWindow(
-          title: 'Driver Name : ${ambulance.user!.name}',
-          snippet:
-              'Lat : ${ambulance.latitude} \nLong : ${ambulance.longitude}',
-        ),
-        icon: BitmapDescriptor.defaultMarker,
+            title: 'Driver Name : ${ambulance.user!.name}',
+            snippet:
+                'Lat : ${ambulance.latitude} \nLong : ${ambulance.longitude}',
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                showDragHandle: true,
+                constraints: BoxConstraints(
+                  minWidth: MediaQuery.of(context).size.width,
+                  maxHeight: MediaQuery.of(context).size.height * 0.5,
+                ),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20.0),
+                  ),
+                ),
+                builder: (context) => Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Text(
+                          'Ambulance Details',
+                          style: CustomTextStyles.darkMadimi.copyWith(
+                            fontSize: 24.0,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20.0),
+                      Text(
+                        'Driver Name : ${ambulance.user!.name!.toUpperCase()}',
+                        style: CustomTextStyles.dark.copyWith(
+                            fontSize: 14.0, fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(height: 4.0),
+                      Text(
+                        'Lat : ${ambulance.latitude}',
+                        style: CustomTextStyles.dark.copyWith(
+                            fontSize: 14.0, fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(height: 4.0),
+                      Text(
+                        'Long : ${ambulance.longitude}',
+                        style: CustomTextStyles.dark.copyWith(
+                            fontSize: 14.0, fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(height: 4.0),
+                      Text(
+                        'Model : ${ambulance.model}',
+                        style: CustomTextStyles.dark.copyWith(
+                            fontSize: 14.0, fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(height: 4.0),
+                      Text(
+                        'License Plate : ${ambulance.licensePlate}',
+                        style: CustomTextStyles.dark.copyWith(
+                            fontSize: 14.0, fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(height: 4.0),
+                      Text(
+                        'Contact : ${ambulance.user!.phoneNumber}',
+                        style: CustomTextStyles.dark.copyWith(
+                            fontSize: 14.0, fontWeight: FontWeight.w500),
+                      ),
+                      Spacer(),
+                      CustomFilledButton(
+                        text: 'Contact',
+                        onPressed: () async {
+                          final phoneNumber = ambulance.user!.phoneNumber;
+                          final url = 'https://wa.me/$phoneNumber';
+                          await launchUrl(Uri.parse(url));
+                        },
+                      ),
+                      SizedBox(height: 20.0),
+                    ],
+                  ),
+                ),
+              );
+            }),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
       );
       markers.add(marker);
       return markers;
