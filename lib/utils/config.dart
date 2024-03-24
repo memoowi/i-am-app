@@ -6,4 +6,7 @@ class Config {
   static const String loginUrl = "$baseApiUrl/login";
   static const String logoutUrl = "$baseApiUrl/logout";
   static const String userUrl = "$baseApiUrl/user";
+
+  // Bookings
+  static const String bookingListUrl = "$baseApiUrl/bookings";
 }

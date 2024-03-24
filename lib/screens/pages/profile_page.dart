@@ -36,7 +36,7 @@ class ProfilePage extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       height: MediaQuery.of(context).size.height * 0.25,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
                             Colors.white,
@@ -50,10 +50,10 @@ class ProfilePage extends StatelessWidget {
                             bottomRight: Radius.circular(100)),
                       ),
                     ),
-                    SizedBox(height: 64),
+                    const SizedBox(height: 64),
                   ],
                 ),
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 64,
                   backgroundColor: Colors.white,
                   child: CircleAvatar(
@@ -68,16 +68,18 @@ class ProfilePage extends StatelessWidget {
               child: SafeArea(
                 child: Container(
                   width: double.infinity,
-                  margin: EdgeInsets.symmetric(horizontal: 32, vertical: 10),
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 32, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                   decoration: BoxDecoration(
                     color: CustomColors.lightColor,
-                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                    borderRadius: const BorderRadius.all(Radius.circular(16)),
                     boxShadow: [
                       BoxShadow(
                         color: CustomColors.darkColor.withOpacity(0.2),
                         blurRadius: 20.0,
-                        offset: Offset(0, 10.0),
+                        offset: const Offset(0, 10.0),
                       ),
                     ],
                   ),
@@ -90,7 +92,7 @@ class ProfilePage extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      SizedBox(height: 6),
+                      const SizedBox(height: 6),
                       Text(
                         '(${user?.phoneNumber})',
                         style: CustomTextStyles.grey.copyWith(
@@ -98,7 +100,7 @@ class ProfilePage extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SizedBox(height: 6),
+                      const SizedBox(height: 6),
                       Text(
                         user?.email ?? 'Loading...',
                         style: CustomTextStyles.dark.copyWith(
@@ -107,7 +109,7 @@ class ProfilePage extends StatelessWidget {
                           fontStyle: FontStyle.italic,
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       CustomOutlineButton(
                         onPressed: () {
                           showDialog(
@@ -116,7 +118,8 @@ class ProfilePage extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
-                              title: Text('Are you sure you want to logout?'),
+                              title: const Text(
+                                  'Are you sure you want to logout?'),
                               titleTextStyle:
                                   CustomTextStyles.darkMadimi.copyWith(
                                 fontSize: 20,
@@ -132,7 +135,7 @@ class ProfilePage extends StatelessWidget {
                                         },
                                       ),
                                     ),
-                                    SizedBox(width: 10),
+                                    const SizedBox(width: 10),
                                     Expanded(
                                       child: CustomFilledButton(
                                         text: 'Yes',
