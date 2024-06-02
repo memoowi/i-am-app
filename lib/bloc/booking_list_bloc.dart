@@ -23,13 +23,13 @@ class BookingListBloc extends Bloc<BookingListEvent, BookingListState> {
               'Authorization': 'Bearer $token',
             }));
 
-        if (response.statusCode == 200) {
-          final bookingList = BookingListModel.fromJson(response.data);
-          emit(BookingListLoaded(bookingList: bookingList));
-        }
+        final bookingList = BookingListModel.fromJson(response.data);
+        emit(BookingListLoaded(bookingList: bookingList));
       } on DioException catch (e) {
         log(e.toString());
-        emit(BookingListInitial());
+        emit(BookingListError(
+          message: e.response!.data['message'],
+        ));
       }
     });
   }

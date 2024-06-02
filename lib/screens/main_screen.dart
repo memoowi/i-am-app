@@ -40,6 +40,7 @@ class _MainScreenState extends State<MainScreen> {
     notchBottomBarController.dispose();
     super.dispose();
   }
+  
 
   @override
   Widget build(BuildContext context) {
