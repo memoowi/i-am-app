@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +80,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         emit(BookingFailed());
         if (event.context.mounted) {
           CustomSnackBar.show(
-            message: e.response?.data['message'],
+            message: 'Tidak Boleh',
             icon: Icons.error,
             context: event.context,
           );

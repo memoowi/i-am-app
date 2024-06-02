@@ -12,3 +12,9 @@ final class BookingListLoaded extends BookingListState {
 
   BookingListLoaded({required this.bookingList});
 }
+
+final class BookingListError extends BookingListState {
+  final String message;
+
+  BookingListError({required this.message});
+}

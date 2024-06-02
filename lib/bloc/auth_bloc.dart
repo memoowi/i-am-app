@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
@@ -45,22 +46,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             'username': event.username,
             'password': event.password,
           },
+          options: Options(contentType: 'application/json'),
         );
 
-        if (response.statusCode == 200) {
-          String token = response.data['token'];
-          await saveToken(token);
-          final user = await getUser(token);
-          if (event.context.mounted) {
-            CustomSnackBar.show(
-                message: 'Login Successful',
-                icon: Icons.check,
-                context: event.context);
-          }
-          emit(AuthenticatedState(user: user!));
-        } else {
-          emit(UnauthenticatedState());
+        // if (response.statusCode == 200) {
+        String token = response.data['token'];
+        await saveToken(token);
+        final user = await getUser(token);
+        if (event.context.mounted) {
+          CustomSnackBar.show(
+              message: 'Login Successful',
+              icon: Icons.check,
+              context: event.context);
         }
+        emit(AuthenticatedState(user: user!));
+        // } else {
+        //   emit(UnauthenticatedState());
+        // }
       } on DioException catch (e) {
         if (e.response?.statusCode == 401 || e.response?.statusCode == 404) {
           String message = e.response?.data['message'];
